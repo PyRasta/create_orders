@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <p>Symbol: <input name="symbol"></p>
+        <p>Volume: <input name="volume"></p>
+        <p>Number: <input name="number"></p>
+        <p>AmountDif: <input name="amount_dif"></p>
+        <p>Side: <input name="side"></p>
+        <p>PriceMin: <input name="price_min"></p>
+        <p>PriceMax: <input name="price_max"></p>
+        <button onclick="send()">Отправить</button>
+        <p>Результут: </p>
+        <div id="result"></div>   
+    </div>
+    <script>
+        async function send(){
+            const symbol = document.getElementsByName("symbol")[0].value;
+            const volume = document.getElementsByName("volume")[0].value;
+            const number = document.getElementsByName("number")[0].value;
+            const amount_dif = document.getElementsByName("amount_dif")[0].value;
+            const side = document.getElementsByName("side")[0].value;
+            const price_min = document.getElementsByName("price_min")[0].value;
+            const price_max = document.getElementsByName("price_max")[0].value;
+
+            const response = await fetch("/get_data", {
+                    method: "POST",
+                    headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        symbol: symbol,
+                        volume: volume,
+                        number: number,
+                        amount_dif: amount_dif,
+                        side: side,
+                        price_min: price_min,
+                        price_max: price_max
+                    })
+                });
+                const data = await response.json();
+                document.getElementById("result").textContent = JSON.stringify(data)
+
+        }
+    </script>
+</body>
+</html>
